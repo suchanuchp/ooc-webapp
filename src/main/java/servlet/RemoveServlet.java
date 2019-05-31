@@ -46,7 +46,11 @@ public class RemoveServlet extends HttpServlet implements Routable {
                 && !current_username.equals(username)) {
 
                     securityService.removeUser(username);
-                    response.sendRedirect("/users");
+
+                    String msg = "Successfully removed "+username;
+                    request.setAttribute("message", msg);
+                    RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/users.jsp");
+                    rd.include(request, response);
 
                 }else if (!securityService.isAuthorizedDB(request)){
                     String error = "Login to remove users";
@@ -58,7 +62,7 @@ public class RemoveServlet extends HttpServlet implements Routable {
 
                     String error = "Cannot remove yourself from the users";
                     request.setAttribute("error", error);
-                    RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/remove.jsp");
+                    RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/users.jsp");
                     rd.include(request, response);
                 }
 

@@ -1,7 +1,7 @@
 <html>
 <body>
 <h2>Remove User</h2>
-<p>${error}</p>
+<p align="center">${message}</p>
 <form action="/remove" method="post">
     Username:<br/>
     <input type="text" name="username"/>
