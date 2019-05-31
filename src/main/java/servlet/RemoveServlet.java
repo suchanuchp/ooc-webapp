@@ -28,8 +28,8 @@ public class RemoveServlet extends HttpServlet implements Routable {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/remove.jsp");
-        rd.include(request, response);
+//        RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/remove.jsp");
+//        rd.include(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

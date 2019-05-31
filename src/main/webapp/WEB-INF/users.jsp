@@ -58,9 +58,13 @@
 %><table class="w3-table-all w3-card-4">
 
     <tr>
+        <th>Username</th>
         <th>First Name</th>
         <th>Last Name</th>
-        <th>Points</th>
+        <form action="/register" method="get">
+            <td><input type = "submit"  value="Add User"></td>
+        </form>
+
     </tr>
     <%while(rs.next())
     {
