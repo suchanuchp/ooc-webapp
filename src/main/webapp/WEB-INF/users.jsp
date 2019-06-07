@@ -1,3 +1,5 @@
+
+
 <%--<!DOCTYPE html>--%>
 <%--<html>--%>
 <%--<title>W3.CSS</title>--%>
@@ -43,9 +45,39 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <head>
     <%@ page import="java.sql.*" %>
+    <%@ page import="java.util.List" %>
+    <%@ page import="service.User" %>
 </head>
 <body >
 <p>${message}</p>
+<%--<tr>--%>
+<%--    <th>Username</th>--%>
+<%--    <th>First Name</th>--%>
+<%--    <th>Last Name</th>--%>
+<%--    <form action="/register" method="get">--%>
+<%--        <td><input type = "submit"  value="Add User"></td>--%>
+<%--    </form>--%>
+
+<%--</tr>--%>
+<%--<c:forEach var="user" items="${usersList}">--%>
+<%--    <!-- create an html table row -->--%>
+<%--    <tr>--%>
+<%--        <!-- create cells of row -->--%>
+
+<%--        <td>${user.userName}</td>--%>
+<%--        <td>${user.firstName}</td>--%>
+<%--        <td>${user.lastName}</td>--%>
+<%--&lt;%&ndash;        <form action="/remove?username=<%=user.userName%>&password=<%=pass%>" method="post">&ndash;%&gt;--%>
+<%--&lt;%&ndash;            <td><input type = "submit"  value="Remove User"></td>&ndash;%&gt;--%>
+<%--&lt;%&ndash;        </form>&ndash;%&gt;--%>
+<%--        <!-- close row -->--%>
+<%--    </tr>--%>
+<%--    <!-- close the loop -->--%>
+<%--</c:forEach>--%>
+
+
+
+
 
 <%
     try

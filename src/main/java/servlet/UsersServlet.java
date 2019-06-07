@@ -28,21 +28,19 @@ public class UsersServlet extends HttpServlet implements Routable {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher rd;
-        try {
-            if(securityService.isAuthorizedDB(request)){
-                rd = request.getRequestDispatcher("WEB-INF/users.jsp");
-                rd.include(request, response);
-            }
-            else{
-                String error = "Login to see users list.";
-                request.setAttribute("error", error);
-                rd = request.getRequestDispatcher("WEB-INF/login.jsp");
-                rd.include(request, response);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if(securityService.isAuthorizedDB(request)){
+            rd = request.getRequestDispatcher("WEB-INF/users.jsp");
+            request.setAttribute("usersList", securityService.getUsers());
+            rd.include(request, response);
         }
+        else{
+            String error = "Login to see users list.";
+            request.setAttribute("error", error);
+            rd = request.getRequestDispatcher("WEB-INF/login.jsp");
+            rd.include(request, response);
+        }
+
+
 
     }
 }

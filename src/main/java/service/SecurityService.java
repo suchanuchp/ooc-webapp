@@ -1,10 +1,13 @@
 package service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.sql.*;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
+import org.mindrot.jbcrypt.BCrypt;
 
 
 /**
@@ -13,20 +16,14 @@ import org.apache.commons.lang.StringUtils;
  */
 public class SecurityService {
 
-//
-//    private Map<String, String> userCredentials = new HashMap<String, String>() {{
-//        put("admin", "123456");
-//        put("muic", "1111");
-//    }};
 
+    static private List<User> users = new ArrayList<>();
 
     static Connection conn;
     static{
        String url = "jdbc:mysql://localhost:3307/a4";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-
-            //Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
             conn = DriverManager.getConnection(url,"user","12345");
 
         } catch (SQLException e) {
@@ -34,6 +31,27 @@ public class SecurityService {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    static{
+        Statement st = null;
+        ResultSet rs = null;
+        try {
+            st = conn.createStatement();
+            rs = st.executeQuery("select * from users;");
+            while(rs.next()){
+                String username = rs.getString(1);
+                String pass = rs.getString(2);
+                String firstname = rs.getString(3);
+                String lastname = rs.getString(4);
+                User user = new User(firstname, lastname, username, pass);
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
 
@@ -44,7 +62,7 @@ public class SecurityService {
     public boolean authenticateDB(String username, String password, HttpServletRequest request){
 
         String passwordInDB = getPassword(username);
-        boolean isMatched = StringUtils.equals(password, passwordInDB);
+        boolean isMatched = checkPass(password, passwordInDB);
         if (isMatched) {
             request.getSession().setAttribute("username", username);
             return true;
@@ -59,9 +77,10 @@ public class SecurityService {
 
             String query = "insert into users (username, password, firstname, lastname)"
                     + " values (?, ?,?,?)";
+            String hashed = hashPassword(password);
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setString (1, username);
-            preparedStmt.setString (2, password);
+            preparedStmt.setString (2, hashed);
             preparedStmt.setString (3, firstname);
             preparedStmt.setString (4, lastname);
             preparedStmt.execute();
@@ -72,7 +91,7 @@ public class SecurityService {
 
     }
 
-    public boolean isAuthorizedDB(HttpServletRequest request) throws SQLException {
+    public boolean isAuthorizedDB(HttpServletRequest request){
 
         String username = (String) request.getSession()
                 .getAttribute("username");
@@ -82,46 +101,62 @@ public class SecurityService {
     }
 
     private String getPassword(String username){
-        try {
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT password from users where username='"+username+"'");
-            rs.next();
-            return rs.getString(1); //here
+//        try {
+//            Statement stmt = conn.createStatement();
+//            ResultSet rs = stmt.executeQuery("SELECT password from users where username='"+username+"'");
+//            rs.next();
+//            return rs.getString(1); //here
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+        int index = getUserIndex(username);
+        User user = users.get(index);
+        return user.getHashedPass();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public static void main(String[] args) throws SQLException {
         SecurityService service = new SecurityService();
-        //service.removeUser("nn");
+        //System.out.println(service.hashPassword("1234"));
+        String passwordInDB = service.getPassword("admin");
+        boolean isMatched = service.checkPass("1234", passwordInDB);
+        System.out.println(isMatched);
 
 
     }
+    private String hashPassword(String plainTextPassword){
+        return BCrypt.hashpw(plainTextPassword, BCrypt.gensalt());
+    }
 
-    public boolean containsUser(String username) throws SQLException {
-        Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                ResultSet.CONCUR_READ_ONLY);
-        ResultSet rs = stmt.executeQuery("SELECT COUNT(1) FROM users WHERE username='"+username+"'");//"+username);
-        int exist = 0;
-        if ( rs.next() ) {
-            exist = rs.getInt(1);
+
+    private boolean checkPass(String plainPassword, String hashedPassword) {
+        return BCrypt.checkpw(plainPassword, hashedPassword);
+
+    }
+
+    public boolean containsUser(String username) {
+//        Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+//                ResultSet.CONCUR_READ_ONLY);
+//        ResultSet rs = stmt.executeQuery("SELECT COUNT(1) FROM users WHERE username='"+username+"'");//"+username);
+//        int exist = 0;
+//        if ( rs.next() ) {
+//            exist = rs.getInt(1);
+//        }
+//        return exist==1;
+        for(User user : users){
+            if(user.getUserName().equals(username)) return true;
         }
-        return exist==1;
+        return false;
 
     }
 
     public boolean isValidUserPwd(String username, String password){
 
-        try {
-            if(containsUser(username)){
-                String passwordDB = getPassword(username);
-                return passwordDB.equals(password);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if(containsUser(username)){
+            String passwordDB = getPassword(username);
+            return passwordDB.equals(password);
         }
         return false;
 
@@ -131,9 +166,21 @@ public class SecurityService {
 
         Statement statement = conn.createStatement();
         statement.executeUpdate("DELETE FROM users WHERE username='"+username+"'");
-
+        int index = getUserIndex(username);
+        users.remove(index);
 
     }
+
+    private int getUserIndex(String username){
+        int i = 0;
+        for(User user : users){
+            if(user.getUserName().equals(username)) return i;
+            i++;
+        }
+        return -1;
+    }
+
+    public List<User> getUsers(){ return users;}
 
 
 

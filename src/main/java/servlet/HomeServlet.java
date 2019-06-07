@@ -36,12 +36,8 @@ public class HomeServlet extends HttpServlet implements Routable {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        boolean authorized = false;
-        try {
-            authorized = securityService.isAuthorizedDB(request);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        boolean authorized = securityService.isAuthorizedDB(request);
+
         if (authorized) {
             // do MVC in here
             String username = (String) request.getSession().getAttribute("username");

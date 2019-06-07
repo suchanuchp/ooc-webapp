@@ -43,21 +43,19 @@ public class RegisterServlet extends HttpServlet implements Routable {
 
         if (!StringUtils.isBlank(username) && !StringUtils.isBlank(password)&&
         !StringUtils.isBlank(lastname)&&!StringUtils.isBlank(firstname)){
-            try {
-                if(securityService.containsUser(username)){
-                    String error = "Username is already taken.";
-                    request.setAttribute("error", error);
-                    RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/register.jsp");
-                    rd.include(request, response);
 
-                }
-                else{
-                    securityService.registerUser(username, password, firstname, lastname);
-                    response.sendRedirect("/");
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if(securityService.containsUser(username)){
+                String error = "Username is already taken.";
+                request.setAttribute("error", error);
+                RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/register.jsp");
+                rd.include(request, response);
+
             }
+            else{
+                securityService.registerUser(username, password, firstname, lastname);
+                response.sendRedirect("/");
+            }
+
         }else{
             String error = "Enter all the fields required.";
             request.setAttribute("error", error);
