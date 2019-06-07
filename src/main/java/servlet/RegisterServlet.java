@@ -53,7 +53,7 @@ public class RegisterServlet extends HttpServlet implements Routable {
             }
             else{
                 securityService.registerUser(username, password, firstname, lastname);
-                response.sendRedirect("/");
+                response.sendRedirect("/users");
             }
 
         }else{

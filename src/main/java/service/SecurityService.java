@@ -122,6 +122,7 @@ public class SecurityService {
         //System.out.println(service.hashPassword("1234"));
         String passwordInDB = service.getPassword("admin");
         boolean isMatched = service.checkPass("1234", passwordInDB);
+        service.editUser("jane412", "jane", "Jane", "Taylor");
         System.out.println(isMatched);
 
 
@@ -181,6 +182,13 @@ public class SecurityService {
     }
 
     public List<User> getUsers(){ return users;}
+
+    public void editUser(String oldUserName, String newUserName, String firstName, String lastName) throws SQLException {
+        Statement statement = conn.createStatement();
+        statement.executeUpdate("UPDATE users SET username ='"+newUserName+"', firstname ='"+firstName+"'"+", lastname ='"+
+                lastName+"' WHERE username = '"+oldUserName+"'");
+
+    }
 
 
 

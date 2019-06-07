@@ -50,6 +50,9 @@
 </head>
 <body >
 <p>${message}</p>
+
+
+
 <%--<tr>--%>
 <%--    <th>Username</th>--%>
 <%--    <th>First Name</th>--%>
@@ -75,10 +78,6 @@
 <%--    <!-- close the loop -->--%>
 <%--</c:forEach>--%>
 
-
-
-
-
 <%
     try
     {
@@ -95,6 +94,9 @@
         <th>Last Name</th>
         <form action="/register" method="get">
             <td><input type = "submit"  value="Add User"></td>
+        </form>
+        <form action="/edit" method="get">
+            <td><input type = "submit"  value="Edit User"></td>
         </form>
 
     </tr>
