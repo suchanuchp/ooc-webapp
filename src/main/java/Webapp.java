@@ -26,7 +26,7 @@ public class Webapp {
             servletRouter.init(ctx);
             tomcat.start();
             tomcat.getServer().await();
-        } catch (ServletException | LifecycleException ex) {
+        } catch (LifecycleException ex) {
             ex.printStackTrace();
         }
 
