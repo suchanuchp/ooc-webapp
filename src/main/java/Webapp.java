@@ -28,6 +28,8 @@ public class Webapp {
             tomcat.getServer().await();
         } catch (LifecycleException ex) {
             ex.printStackTrace();
+        } catch (ServletException e) {
+            e.printStackTrace();
         }
 
     }
