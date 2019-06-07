@@ -41,39 +41,37 @@ public class RemoveServlet extends HttpServlet implements Routable {
 
         if (!StringUtils.isBlank(username) && !StringUtils.isBlank(password)) {
 
-            try {
-                if (securityService.isValidUserPwd(username, password)&&securityService.isAuthorizedDB(request)
-                && !current_username.equals(username)) {
+            if (securityService.isValidUserPwd(username, password)&&securityService.isAuthorizedDB(request)
+                    && !current_username.equals(username)) {
 
+                try {
                     securityService.removeUser(username);
-
-                    String msg = "Successfully removed "+username;
-                    request.setAttribute("message", msg);
-                    RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/users.jsp");
-                    rd.include(request, response);
-
-                }else if (!securityService.isAuthorizedDB(request)){
-                    String error = "Login to remove users";
-                    request.setAttribute("error", error);
-                    RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/login.jsp");
-                    rd.include(request, response);
-                }
-                else if (current_username.equals(username)){
-
-                    String error = "Cannot remove yourself from the users";
-                    request.setAttribute("error", error);
-                    RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/users.jsp");
-                    rd.include(request, response);
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
 
-                else{
-                    String error = "Invalid username or password.";
-                    request.setAttribute("error", error);
-                    RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/remove.jsp");
-                    rd.include(request, response);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+                String msg = "Successfully removed "+username;
+                request.setAttribute("message", msg);
+                RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/users.jsp");
+                rd.include(request, response);
+
+            }else if (!securityService.isAuthorizedDB(request)){
+                String error = "Login to remove users";
+                request.setAttribute("message", error);
+                RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/login.jsp");
+                rd.include(request, response);
+            }
+            else if (current_username.equals(username)){
+
+                String error = "Cannot remove yourself from the users";
+                request.setAttribute("message", error);
+                RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/users.jsp");
+                rd.include(request, response);
+            }
+
+
+            else{
+                response.sendRedirect("/users");
             }
 
 
