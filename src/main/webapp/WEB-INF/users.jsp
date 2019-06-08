@@ -11,13 +11,10 @@
 
 
 <%
+
     try
     {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection con=(Connection) DriverManager.getConnection(
-                "jdbc:mysql://localhost:3307/a4","user","12345");
-        Statement st=con.createStatement();
-        ResultSet rs=st.executeQuery("select * from users;");
+        ResultSet rs= (ResultSet) request.getAttribute("users");
 %><table class="w3-table-all w3-card-4">
 
     <tr>

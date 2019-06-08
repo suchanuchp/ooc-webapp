@@ -93,6 +93,13 @@ public class SecurityService {
 
     }
 
+    public ResultSet getUsersRS() throws SQLException {
+        Statement st = conn.createStatement();
+        ResultSet rs = st.executeQuery("select * from users;");
+        return rs;
+
+    }
+
     public boolean isAuthorizedDB(HttpServletRequest request){
 
         String username = (String) request.getSession()
