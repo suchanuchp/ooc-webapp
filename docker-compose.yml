@@ -15,6 +15,13 @@ services:
       - 127.0.0.1:3307:3306
     volumes:
       - my-db:/var/lib/mysql
+  tomcat:
+    build: ./
+    environment:
+      DATABASE_HOSTNAME: 'db'
+      DATABASE_PORT: '3306'
+    depends_on:
+      - db
 # Names our volume
 volumes:
   my-db:
