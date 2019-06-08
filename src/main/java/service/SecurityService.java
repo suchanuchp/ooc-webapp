@@ -86,6 +86,8 @@ public class SecurityService {
             preparedStmt.setString (3, firstname);
             preparedStmt.setString (4, lastname);
             preparedStmt.execute();
+            User user = new User(firstname, lastname, username, hashed);
+            users.add(user);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -93,7 +95,7 @@ public class SecurityService {
 
     }
 
-    public ResultSet getUsersRS() throws SQLException {
+    public static ResultSet getUsersRS() throws SQLException {
         Statement st = conn.createStatement();
         ResultSet rs = st.executeQuery("select * from users;");
         return rs;
@@ -147,14 +149,7 @@ public class SecurityService {
     }
 
     public boolean containsUser(String username) {
-//        Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-//                ResultSet.CONCUR_READ_ONLY);
-//        ResultSet rs = stmt.executeQuery("SELECT COUNT(1) FROM users WHERE username='"+username+"'");//"+username);
-//        int exist = 0;
-//        if ( rs.next() ) {
-//            exist = rs.getInt(1);
-//        }
-//        return exist==1;
+
         for(User user : users){
             if(user.getUserName().equals(username)) return true;
         }

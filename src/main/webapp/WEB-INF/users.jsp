@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <head>
     <%@ page import="java.sql.*" %>
+    <%@ page import="service.SecurityService" %>
 </head>
 <body >
 <p>${message}</p>
@@ -14,7 +15,7 @@
 
     try
     {
-        ResultSet rs= (ResultSet) request.getAttribute("users");
+        ResultSet rs= SecurityService.getUsersRS();
 %><table class="w3-table-all w3-card-4">
 
     <tr>

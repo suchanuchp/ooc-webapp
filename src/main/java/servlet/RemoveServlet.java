@@ -35,13 +35,12 @@ public class RemoveServlet extends HttpServlet implements Routable {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String username = request.getParameter("username");
-        String password = request.getParameter("password");
         String current_username = (String) request.getSession()
                 .getAttribute("username");
 
-        if (!StringUtils.isBlank(username) && !StringUtils.isBlank(password)) {
+        if (!StringUtils.isBlank(username)) {
 
-            if (securityService.isValidUserPwd(username, password)&&securityService.isAuthorizedDB(request)
+            if (securityService.isAuthorizedDB(request)
                     && !current_username.equals(username)) {
 
                 try {
