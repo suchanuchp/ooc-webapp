@@ -1,9 +1,6 @@
 package service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.sql.*;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
@@ -15,6 +12,11 @@ import org.mindrot.jbcrypt.BCrypt;
  * @author gigadot
  */
 public class SecurityService {
+    public static final String DATABASE_HOSTNAME = Optional.ofNullable(System.getenv("DATABASE_HOSTNAME")).orElse("localhost");
+    public static final String DATABASE_PORT = Optional.ofNullable(System.getenv("DATABASE_PORT")).orElse("3307");
+
+    public static final String MYSQL_DRIVER = "com.mysql.jdbc.Driver";
+    public static final String MYSQL_URL = String.format("jdbc:mysql://%s:%s/logindata?useSSL=false&characterEncoding=UTF-8&user=root&password=12345", DATABASE_HOSTNAME, DATABASE_PORT);
 
 
     static private List<User> users = new ArrayList<>();
