@@ -26,7 +26,7 @@ public class SecurityService {
        String url = "jdbc:mysql://localhost:3307/a4";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection(url,"user","12345");
+            conn = DriverManager.getConnection(MYSQL_URL);
 
         } catch (SQLException e) {
             e.printStackTrace();
