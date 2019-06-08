@@ -16,7 +16,7 @@ public class SecurityService {
     public static final String DATABASE_PORT = Optional.ofNullable(System.getenv("DATABASE_PORT")).orElse("3307");
 
     public static final String MYSQL_DRIVER = "com.mysql.jdbc.Driver";
-    public static final String MYSQL_URL = String.format("jdbc:mysql://%s:%s/logindata?useSSL=false&characterEncoding=UTF-8&user=root&password=12345", DATABASE_HOSTNAME, DATABASE_PORT);
+    public static final String MYSQL_URL = String.format("jdbc:mysql://%s:%s/logindata?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&user=root&password=12345", DATABASE_HOSTNAME, DATABASE_PORT);
 
 
     static private List<User> users = new ArrayList<>();
