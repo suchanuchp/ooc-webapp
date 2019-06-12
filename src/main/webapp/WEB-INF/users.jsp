@@ -9,7 +9,7 @@
 </head>
 <body >
 <p>${message}</p>
-
+<p> User: ${currentUser}</p>
 
 <%
 

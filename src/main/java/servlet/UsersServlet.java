@@ -35,7 +35,10 @@ public class UsersServlet extends HttpServlet implements Routable {
             ResultSet rs;
             try {
                 rs =  securityService.getUsersRS();
+                String username = (String) request.getSession()
+                        .getAttribute("username");
                 request.setAttribute("users", rs);
+                request.setAttribute("currentUser", username);
 
             } catch (SQLException e) {
                 e.printStackTrace();

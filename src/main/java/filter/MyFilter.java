@@ -27,7 +27,7 @@ public class MyFilter implements Filter {
 
             String path = ((HttpServletRequest) servletRequest).getServletPath();
             if(!servlet.contains(path)){
-                System.out.println("here");
+                //System.out.println("here");
                 ((HttpServletResponse) servletResponse).sendRedirect("/users");
 
 
@@ -35,7 +35,7 @@ public class MyFilter implements Filter {
             else{
                 filterChain.doFilter(servletRequest, httpResponse);
             }
-            System.out.println(path);
+            //System.out.println(path);
 
         }
         else{

@@ -123,6 +123,7 @@ public class SecurityService {
 //        }
 //        return null;
         int index = getUserIndex(username);
+        if(index==-1){return " ";}
         User user = users.get(index);
         return user.getHashedPass();
 
