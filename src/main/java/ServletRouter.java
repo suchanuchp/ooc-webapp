@@ -48,6 +48,7 @@ public class ServletRouter {
                 routable.setSecurityService(securityService);
                 String name = routable.getClass().getSimpleName();
                 Tomcat.addServlet(ctx, name, (HttpServlet) routable);
+                System.out.println(routable.getMapping());
                 ctx.addServletMapping(routable.getMapping(), name);
             } catch (InstantiationException e) {
                 e.printStackTrace();

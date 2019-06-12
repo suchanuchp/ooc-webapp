@@ -39,7 +39,7 @@ public class EditServlet extends HttpServlet implements Routable {
             RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/edit.jsp");
             rd.include(request, response);
         }
-        else if(!securityService.containsUser(username)){
+        else if(!securityService.containsUser(oldUsername)){
             String error = "Username does not exist";
             request.setAttribute("error", error);
             RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/edit.jsp");
