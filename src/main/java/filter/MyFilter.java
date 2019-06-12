@@ -11,7 +11,7 @@ import java.util.HashSet;
 public class MyFilter implements Filter {
     static HashSet<String> servlet;
     static{
-        servlet = new HashSet<>(Arrays.asList("/login", "/users", "/remove", "/edit","/index.jsp","/logout"));
+        servlet = new HashSet<>(Arrays.asList("/login", "/users", "/remove", "/edit","/index.jsp","/logout","/register"));
 
     }
     @Override
